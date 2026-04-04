@@ -50,6 +50,7 @@ export type Database = {
           bryggenotater: string | null
           created_at: string
           effektivitet: number | null
+          finished: boolean
           forv_fg: number | null
           forv_og: number | null
           gjaeringstemp: number | null
@@ -97,6 +98,7 @@ export type Database = {
           bryggenotater?: string | null
           created_at?: string
           effektivitet?: number | null
+          finished?: boolean
           forv_fg?: number | null
           forv_og?: number | null
           gjaeringstemp?: number | null
@@ -144,6 +146,7 @@ export type Database = {
           bryggenotater?: string | null
           created_at?: string
           effektivitet?: number | null
+          finished?: boolean
           forv_fg?: number | null
           forv_og?: number | null
           gjaeringstemp?: number | null
@@ -185,16 +188,40 @@ export type Database = {
       }
       profiles: {
         Row: {
+          avatar_url: string | null
+          bio: string | null
+          brygg_siden: number | null
           display_name: string | null
+          favoritt_gjaer: string | null
+          favoritt_humle: string | null
+          favoritt_ol_stil: string | null
+          hjemmebryggeri: string | null
           id: string
+          sted: string | null
         }
         Insert: {
+          avatar_url?: string | null
+          bio?: string | null
+          brygg_siden?: number | null
           display_name?: string | null
+          favoritt_gjaer?: string | null
+          favoritt_humle?: string | null
+          favoritt_ol_stil?: string | null
+          hjemmebryggeri?: string | null
           id: string
+          sted?: string | null
         }
         Update: {
+          avatar_url?: string | null
+          bio?: string | null
+          brygg_siden?: number | null
           display_name?: string | null
+          favoritt_gjaer?: string | null
+          favoritt_humle?: string | null
+          favoritt_ol_stil?: string | null
+          hjemmebryggeri?: string | null
           id?: string
+          sted?: string | null
         }
         Relationships: []
       }

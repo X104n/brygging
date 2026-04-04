@@ -44,4 +44,5 @@ export type Bryggeskjema = {
   smaksnotater: string | null
   karakter: number | null
   published: boolean
+  finished: boolean
 }

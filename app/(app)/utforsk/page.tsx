@@ -54,7 +54,13 @@ export default async function UtforskPage() {
                       )}
                     </div>
                     <p className="text-sm text-zinc-500 mt-0.5">
-                      {brewer}
+                      <Link
+                        href={`/brygger/${s.user_id}`}
+                        className="hover:text-amber-700 hover:underline"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        {brewer}
+                      </Link>
                       {s.bryggedato
                         ? ` · ${new Date(s.bryggedato).toLocaleDateString('nb-NO')}`
                         : ''}

@@ -4,6 +4,7 @@ import { useActionState, useEffect, useRef, useState } from 'react'
 import { lagreSkjema } from '@/app/actions/skjema'
 import type { Bryggeskjema } from '@/lib/definitions'
 import Link from 'next/link'
+import Tooltip from './Tooltip'
 
 type Props = { skjema?: Bryggeskjema }
 type Source = Record<string, unknown>
@@ -38,6 +39,7 @@ function Felt({
   defaultValue,
   enhet,
   step,
+  tooltip,
 }: {
   label: string
   name: string
@@ -45,12 +47,14 @@ function Felt({
   defaultValue?: string | number | null
   enhet?: string
   step?: string
+  tooltip?: string
 }) {
   return (
     <div>
       <label className="block text-sm font-medium text-zinc-700 mb-1" htmlFor={name}>
         {label}
         {enhet && <span className="text-zinc-400 font-normal ml-1">({enhet})</span>}
+        {tooltip && <Tooltip text={tooltip} />}
       </label>
       <input
         id={name}
@@ -185,14 +189,14 @@ export default function SkjemaForm({ skjema }: Props) {
           <Felt label="Tappedato" name="tappedato" type="date" defaultValue={str('tappedato')} />
         </Grid>
         <Grid>
-          <Felt label="Forventa OG" name="forv_og" type="number" step="0.001" defaultValue={str('forv_og')} />
-          <Felt label="Forventa FG" name="forv_fg" type="number" step="0.001" defaultValue={str('forv_fg')} />
-          <Felt label="Effektivitet" name="effektivitet" type="number" step="0.1" enhet="%" defaultValue={str('effektivitet')} />
+          <Felt label="Forventa OG" name="forv_og" type="number" step="0.001" defaultValue={str('forv_og')} tooltip="Original Gravity — tettheten til vørteren før gjæring. Typisk 1.040–1.070. Høyere OG = mer sukker = sterkere øl." />
+          <Felt label="Forventa FG" name="forv_fg" type="number" step="0.001" defaultValue={str('forv_fg')} tooltip="Final Gravity — forventet tetthet etter gjæring. Differansen mellom OG og FG bestemmer alkoholinnholdet." />
+          <Felt label="Effektivitet" name="effektivitet" type="number" step="0.1" enhet="%" defaultValue={str('effektivitet')} tooltip="Hvor mye sukker du fikk ut av maltet ditt vs. teoretisk maks. 70–80% er normalt for hjemmebryggerier." />
         </Grid>
         <Grid>
-          <Felt label="Målt OG" name="malt_og" type="number" step="0.001" defaultValue={str('malt_og')} />
-          <Felt label="Målt FG" name="malt_fg" type="number" step="0.001" defaultValue={str('malt_fg')} />
-          <Felt label="ABV" name="abv" type="number" step="0.1" enhet="%" defaultValue={str('abv')} />
+          <Felt label="Målt OG" name="malt_og" type="number" step="0.001" defaultValue={str('malt_og')} tooltip="Faktisk målt Original Gravity. Sammenlign med forventa OG for å se om oppskriften traff." />
+          <Felt label="Målt FG" name="malt_fg" type="number" step="0.001" defaultValue={str('malt_fg')} tooltip="Faktisk målt Final Gravity etter fullført gjæring. Mål med hydrometer — refraktometer er unøyaktig etter gjæring." />
+          <Felt label="ABV" name="abv" type="number" step="0.1" enhet="%" defaultValue={str('abv')} tooltip="Alkohol By Volume. Beregnes fra OG og FG: (OG − FG) × 131,25. F.eks. OG 1.050 og FG 1.010 → 5,25% ABV." />
         </Grid>
       </Seksjon>
 
@@ -206,10 +210,10 @@ export default function SkjemaForm({ skjema }: Props) {
 
       <Seksjon tittel="2 – Meskeprosess">
         <Grid>
-          <Felt label="Meskevann" name="meskevann_liter" type="number" step="0.1" enhet="liter" defaultValue={str('meskevann_liter')} />
-          <Felt label="Skyllevann" name="skyllevann_liter" type="number" step="0.1" enhet="liter" defaultValue={str('skyllevann_liter')} />
-          <Felt label="Mesketemp" name="mesketemp" type="number" step="0.1" enhet="°C" defaultValue={str('mesketemp')} />
-          <Felt label="Mesketid" name="mesketid" defaultValue={str('mesketid')} />
+          <Felt label="Meskevann" name="meskevann_liter" type="number" step="0.1" enhet="liter" defaultValue={str('meskevann_liter')} tooltip="Mengden vann du blander med maltet. Typisk 2,5–3,5 liter per kg malt." />
+          <Felt label="Skyllevann" name="skyllevann_liter" type="number" step="0.1" enhet="liter" defaultValue={str('skyllevann_liter')} tooltip="Vann brukt til å skylle resterende sukker ut av maltkaken etter mesking." />
+          <Felt label="Mesketemp" name="mesketemp" type="number" step="0.1" enhet="°C" defaultValue={str('mesketemp')} tooltip="65–68°C gir balansert øl. Lavere temp → tørrere øl (mer gjærbart sukker). Høyere temp → fyldigere, søtere øl." />
+          <Felt label="Mesketid" name="mesketid" defaultValue={str('mesketid')} tooltip="Hvor lenge maltet stod i varmt vann. Typisk 60 minutter. Kortere tid kan gi lavere effektivitet." />
         </Grid>
         <Sjekk name="sjekk_meskevann_temp" label="Meskevann har riktig temperatur" defaultChecked={bool('sjekk_meskevann_temp')} />
         <Sjekk name="sjekk_tilsatt_malt" label="Tilsatt malt og rørt ut klumper" defaultChecked={bool('sjekk_tilsatt_malt')} />
@@ -220,8 +224,8 @@ export default function SkjemaForm({ skjema }: Props) {
 
       <Seksjon tittel="3 – Koking">
         <Grid>
-          <Felt label="Koketid" name="koketid" defaultValue={str('koketid')} />
-          <Felt label="Liter til kok" name="antall_liter_til_kok" type="number" step="0.1" defaultValue={str('antall_liter_til_kok')} />
+          <Felt label="Koketid" name="koketid" defaultValue={str('koketid')} tooltip="Standard er 60 min. 90 min brukes ved pilsnermalt for å drive bort DMS. Lengre kok = mer bitterhet og fordampning." />
+          <Felt label="Liter til kok" name="antall_liter_til_kok" type="number" step="0.1" defaultValue={str('antall_liter_til_kok')} tooltip="Volum vørter du starter koket med. Vil alltid bli redusert med 10–15% per time pga. fordampning." />
           <Felt label="Tidspunkt start" name="tidspunkt_start" type="time" defaultValue={str('tidspunkt_start')} />
         </Grid>
         <Sjekk name="sjekk_humle" label="Humle og andre tilsetninger" defaultChecked={bool('sjekk_humle')} />
@@ -236,8 +240,8 @@ export default function SkjemaForm({ skjema }: Props) {
 
       <Seksjon tittel="5 – Gjæring">
         <Grid>
-          <Felt label="Gjæringstemp" name="gjaeringstemp" type="number" step="0.1" enhet="°C" defaultValue={str('gjaeringstemp')} />
-          <Felt label="Antall liter" name="antall_liter_gjaering" type="number" step="0.1" defaultValue={str('antall_liter_gjaering')} />
+          <Felt label="Gjæringstemp" name="gjaeringstemp" type="number" step="0.1" enhet="°C" defaultValue={str('gjaeringstemp')} tooltip="Ale-gjær trives ved 16–22°C. Lager-gjær ved 8–12°C. For høy temp gir fuselalkoholer og ubehagelig smak." />
+          <Felt label="Antall liter" name="antall_liter_gjaering" type="number" step="0.1" defaultValue={str('antall_liter_gjaering')} tooltip="Ferdig volum overført til gjæringskar. Nyttig for å beregne faktisk batch-størrelse." />
         </Grid>
         <Sjekk name="sjekk_oksygenert" label="Oksygenert vørter" defaultChecked={bool('sjekk_oksygenert')} />
         <Sjekk name="sjekk_tilsatt_gjaer" label="Tilsatt gjær" defaultChecked={bool('sjekk_tilsatt_gjaer')} />
@@ -269,7 +273,7 @@ export default function SkjemaForm({ skjema }: Props) {
             className="w-full border border-zinc-300 rounded-lg px-3 py-2 text-sm text-zinc-900 focus:outline-none focus:ring-2 focus:ring-amber-400 resize-y"
           />
         </div>
-        <Felt label="Karakter" name="karakter" type="number" step="1" defaultValue={str('karakter')} />
+        <Felt label="Karakter" name="karakter" type="number" step="1" defaultValue={str('karakter')} tooltip="Din subjektive vurdering av ølet fra 1–10. 6 = greit drikkbart, 8 = vil gjerne gjenta, 10 = det beste du har laget." />
       </Seksjon>
 
       {state?.error && (

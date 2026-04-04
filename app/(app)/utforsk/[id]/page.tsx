@@ -71,7 +71,10 @@ export default async function UtforskDetaljerPage({
             {s.batch_navn || 'Uten navn'}
           </h1>
           <p className="text-sm text-zinc-500 mt-1">
-            Av {brewer}
+            Av{' '}
+            <Link href={`/brygger/${s.user_id}`} className="hover:text-amber-700 hover:underline">
+              {brewer}
+            </Link>
             {s.bryggedato ? ` · Brygget ${new Date(s.bryggedato).toLocaleDateString('nb-NO')}` : ''}
           </p>
         </div>
