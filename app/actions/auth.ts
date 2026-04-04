@@ -4,7 +4,7 @@ import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 
-export async function loggInn(formData: FormData) {
+export async function loggInn(_prevState: unknown, formData: FormData) {
   const supabase = await createClient()
 
   const { error } = await supabase.auth.signInWithPassword({
@@ -20,7 +20,7 @@ export async function loggInn(formData: FormData) {
   redirect('/skjema')
 }
 
-export async function registrer(formData: FormData) {
+export async function registrer(_prevState: unknown, formData: FormData) {
   const supabase = await createClient()
 
   const { error } = await supabase.auth.signUp({

@@ -33,11 +33,11 @@ export async function proxy(request: NextRequest) {
 
   // Redirect logged-in users away from auth pages
   if (user && (pathname === '/logg-inn' || pathname === '/registrer')) {
-    return NextResponse.redirect(new URL('/skjema', request.url))
+    return NextResponse.redirect(new URL('/', request.url))
   }
 
-  // Protect /skjema routes
-  if (!user && pathname.startsWith('/skjema')) {
+  // Protect app routes
+  if (!user && (pathname.startsWith('/skjema') || pathname.startsWith('/utforsk') || pathname.startsWith('/profil') || pathname.startsWith('/brygger') || pathname.startsWith('/info'))) {
     return NextResponse.redirect(new URL('/logg-inn', request.url))
   }
 
@@ -45,5 +45,5 @@ export async function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/logg-inn', '/registrer', '/skjema/:path*'],
+  matcher: ['/logg-inn', '/registrer', '/skjema/:path*', '/utforsk/:path*', '/profil/:path*', '/brygger/:path*', '/info'],
 }

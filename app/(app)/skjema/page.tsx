@@ -1,43 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import Link from 'next/link'
-import type { Bryggeskjema } from '@/lib/definitions'
-
-type ListItem = Pick<Bryggeskjema, 'id' | 'batch_navn' | 'batch_nr' | 'bryggedato' | 'malt_og' | 'malt_fg' | 'karakter' | 'created_at' | 'finished' | 'published'>
-
-function SkjemaKort({ s }: { s: ListItem }) {
-  return (
-    <Link
-      href={`/skjema/${s.id}`}
-      className="bg-white rounded-xl shadow-sm border border-zinc-100 p-5 hover:shadow-md hover:border-amber-200 transition-all flex items-center justify-between"
-    >
-      <div>
-        <div className="flex items-center gap-2">
-          <p className="font-semibold text-zinc-900 text-lg">
-            {s.batch_navn || 'Uten navn'}
-          </p>
-          {s.published && (
-            <span className="text-xs bg-green-100 text-green-700 rounded-full px-2 py-0.5 font-medium">
-              Publisert
-            </span>
-          )}
-        </div>
-        <p className="text-sm text-zinc-500 mt-0.5">
-          {s.batch_nr ? `Batch #${s.batch_nr}` : ''}
-          {s.batch_nr && s.bryggedato ? ' · ' : ''}
-          {s.bryggedato ? new Date(s.bryggedato).toLocaleDateString('nb-NO') : ''}
-        </p>
-      </div>
-      <div className="flex items-center gap-6 text-sm text-zinc-500">
-        {s.malt_og && <span>OG: {s.malt_og}</span>}
-        {s.malt_fg && <span>FG: {s.malt_fg}</span>}
-        {s.karakter && (
-          <span className="font-bold text-amber-700 text-base">{s.karakter}/10</span>
-        )}
-        <span className="text-zinc-300 text-xl">&rsaquo;</span>
-      </div>
-    </Link>
-  )
-}
+import SchemaListCard from '@/app/components/SchemaListCard'
+import EmptyState from '@/app/components/EmptyState'
 
 export default async function SkjemaListePage() {
   const supabase = await createClient()
@@ -62,12 +26,14 @@ export default async function SkjemaListePage() {
       </div>
 
       {!skjemaer?.length ? (
-        <div className="text-center py-20 text-zinc-500">
-          <p className="text-lg mb-4">Ingen skjema ennå.</p>
-          <Link href="/skjema/ny" className="text-amber-700 hover:underline font-medium">
-            Lag ditt første bryggeskjema
-          </Link>
-        </div>
+        <EmptyState
+          title="Ingen skjema ennå."
+          action={
+            <Link href="/skjema/ny" className="text-amber-700 hover:underline font-medium">
+              Lag ditt første bryggeskjema
+            </Link>
+          }
+        />
       ) : (
         <div className="space-y-8">
           {ferdige.length > 0 && (
@@ -76,7 +42,26 @@ export default async function SkjemaListePage() {
                 Ferdige brygg ({ferdige.length})
               </h2>
               <div className="grid gap-4">
-                {ferdige.map((s) => <SkjemaKort key={s.id} s={s as ListItem} />)}
+                {ferdige.map((s) => (
+                  <SchemaListCard
+                    key={s.id}
+                    id={s.id}
+                    href={`/skjema/${s.id}`}
+                    batch_navn={s.batch_navn}
+                    batch_nr={s.batch_nr}
+                    bryggedato={s.bryggedato}
+                    malt_og={s.malt_og}
+                    malt_fg={s.malt_fg}
+                    karakter={s.karakter}
+                    badges={
+                      s.published ? (
+                        <span className="text-xs bg-green-100 text-green-700 rounded-full px-2 py-0.5 font-medium">
+                          Publisert
+                        </span>
+                      ) : null
+                    }
+                  />
+                ))}
               </div>
             </section>
           )}
@@ -87,7 +72,19 @@ export default async function SkjemaListePage() {
                 Utkast ({utkast.length})
               </h2>
               <div className="grid gap-4">
-                {utkast.map((s) => <SkjemaKort key={s.id} s={s as ListItem} />)}
+                {utkast.map((s) => (
+                  <SchemaListCard
+                    key={s.id}
+                    id={s.id}
+                    href={`/skjema/${s.id}`}
+                    batch_navn={s.batch_navn}
+                    batch_nr={s.batch_nr}
+                    bryggedato={s.bryggedato}
+                    malt_og={s.malt_og}
+                    malt_fg={s.malt_fg}
+                    karakter={s.karakter}
+                  />
+                ))}
               </div>
             </section>
           )}

@@ -25,7 +25,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
 
           {/* Brand */}
           <Link
-            href="/skjema"
+            href="/"
             className="flex items-center gap-2 font-bold text-lg tracking-tight hover:opacity-90 transition-opacity shrink-0"
           >
             <FlaskConical className="w-5 h-5 text-amber-300" />

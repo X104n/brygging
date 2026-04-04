@@ -5,10 +5,7 @@ import { loggInn } from '@/app/actions/auth'
 import Link from 'next/link'
 
 export default function LoggInnPage() {
-  const [state, action, pending] = useActionState(
-    async (_: unknown, formData: FormData) => loggInn(formData),
-    null
-  )
+  const [state, action, pending] = useActionState(loggInn, null)
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-amber-50">
