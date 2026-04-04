@@ -33,7 +33,7 @@ export async function proxy(request: NextRequest) {
 
   // Redirect logged-in users away from auth pages
   if (user && (pathname === '/logg-inn' || pathname === '/registrer')) {
-    return NextResponse.redirect(new URL('/', request.url))
+    return NextResponse.redirect(new URL('/skjema', request.url))
   }
 
   // Protect app routes
