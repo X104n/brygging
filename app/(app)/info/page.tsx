@@ -5,6 +5,10 @@ import {
 } from 'lucide-react'
 import Accordion from '@/app/components/Accordion'
 import AbvKalkulator from '@/app/components/AbvKalkulator'
+import MeskevannKalkulator from '@/app/components/MeskevannKalkulator'
+import FordampningsKalkulator from '@/app/components/FordampningsKalkulator'
+import GjaeringsGuide from '@/app/components/GjaeringsGuide'
+import KarakterSkala from '@/app/components/KarakterSkala'
 
 function Begrep({ tittel, children }: { tittel: string; children: React.ReactNode }) {
   return (
@@ -183,6 +187,8 @@ export default function InfoPage() {
             Skyllevannet henter ut resterende sukker fra maltkaken.
           </Begrep>
 
+          <MeskevannKalkulator />
+
           <Tips>
             Mål mesketemperaturen etter omrøring — maltet senker temperaturen de første minuttene.
           </Tips>
@@ -214,6 +220,8 @@ export default function InfoPage() {
             Bitterhumle tilsettes tidlig (60 min), aromahumle sent (5–0 min) eller i whirlpool.
             Jo lengre koketid, jo mer bitterhet — men jo mindre aroma.
           </Begrep>
+
+          <FordampningsKalkulator />
 
           <Tips>
             Spiralkjøleren desinfiseres de siste 15 minuttene av koket — den er neddykket
@@ -278,6 +286,8 @@ export default function InfoPage() {
             Tilsettes typisk mot slutten av primærgjæringen.
           </Begrep>
 
+          <GjaeringsGuide />
+
           <Tips>
             Stabile temperaturer er viktigere enn eksakt temperatur — fest et termometer
             på utsiden av gjæringskarret og unngå store svingninger.
@@ -311,6 +321,8 @@ export default function InfoPage() {
             En enkel karakter gjør det lett å sammenligne batch-er over tid.
             6 = greit drikkbart, 8 = vil brygge igjen, 10 = det beste jeg har laget.
           </Begrep>
+
+          <KarakterSkala />
 
           <div className="bg-purple-50 border border-purple-200 rounded-lg px-4 py-3 text-purple-900 text-sm">
             <span className="font-semibold">Husk: </span>
