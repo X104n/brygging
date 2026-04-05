@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
+import { Compass } from 'lucide-react'
 import SchemaListCard from '@/app/components/SchemaListCard'
 import EmptyState from '@/app/components/EmptyState'
 
@@ -18,12 +19,45 @@ export default async function UtforskPage() {
     : { data: [] }
 
   const nameMap = Object.fromEntries((profiles ?? []).map((p) => [p.id, p.display_name]))
+  const count = skjemaer?.length ?? 0
 
   return (
     <div>
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold text-amber-900">Utforsk</h1>
-        <p className="text-sm text-zinc-500 mt-1">Publiserte bryggeskjema fra alle brukere</p>
+      {/* Hero banner — breaks out of px-4 padding */}
+      <div className="-mx-4 -mt-6 sm:-mt-8 mb-8 relative overflow-hidden bg-gradient-to-br from-stone-900 via-amber-950 to-amber-800">
+        {/* Decorative compass watermark */}
+        <Compass className="absolute -right-6 -bottom-4 w-52 h-52 text-white/5 rotate-12 pointer-events-none" />
+        <Compass className="absolute right-24 top-2 w-12 h-12 text-amber-400/20 -rotate-6 pointer-events-none" />
+
+        <div className="relative px-6 pt-10 pb-8 sm:pt-14 sm:pb-10">
+          <div className="flex items-start justify-between gap-4">
+            <div>
+              <div className="flex items-center gap-2.5 mb-3">
+                <div className="bg-amber-500/20 border border-amber-500/30 rounded-lg p-1.5">
+                  <Compass className="w-4 h-4 text-amber-300" />
+                </div>
+                <span className="text-amber-400 text-xs font-semibold uppercase tracking-widest">
+                  Fellesskapet
+                </span>
+              </div>
+              <h1 className="text-3xl sm:text-4xl font-bold text-white leading-tight">
+                Utforsk brygg
+              </h1>
+              <p className="text-amber-200/70 mt-2 text-sm sm:text-base max-w-sm">
+                Oppdage inspirasjon fra hjemmebryggerier over hele landet
+              </p>
+            </div>
+
+            {count > 0 && (
+              <div className="shrink-0 bg-white/10 border border-white/10 rounded-2xl px-5 py-4 text-center backdrop-blur-sm">
+                <p className="text-3xl sm:text-4xl font-bold text-amber-300 leading-none">{count}</p>
+                <p className="text-amber-400/80 text-xs mt-1.5 leading-tight">
+                  publiserte<br />brygg
+                </p>
+              </div>
+            )}
+          </div>
+        </div>
       </div>
 
       {!skjemaer?.length ? (
