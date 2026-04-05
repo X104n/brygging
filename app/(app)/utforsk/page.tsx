@@ -8,7 +8,7 @@ export default async function UtforskPage() {
 
   const { data: skjemaer } = await supabase
     .from('bryggeskjema')
-    .select('id, batch_navn, batch_nr, bryggedato, malt_og, malt_fg, abv, karakter, smaksnotater, user_id')
+    .select('id, batch_navn, batch_nr, bryggedato, malt_og, malt_fg, abv, karakter, smaksnotater, bilde_url, user_id')
     .eq('published', true)
     .order('updated_at', { ascending: false })
     .limit(50)
@@ -48,6 +48,7 @@ export default async function UtforskPage() {
                 abv={s.abv}
                 karakter={s.karakter}
                 preview={s.smaksnotater}
+                imageUrl={s.bilde_url}
                 subtitle={
                   <Link
                     href={`/brygger/${s.user_id}`}

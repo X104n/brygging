@@ -90,6 +90,21 @@ export async function lagreSkjema(id: string | null, formData: FormData) {
   redirect('/skjema')
 }
 
+export async function saveBildeUrl(skjemaId: string, url: string) {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) redirect('/logg-inn')
+
+  await supabase
+    .from('bryggeskjema')
+    .update({ bilde_url: url })
+    .eq('id', skjemaId)
+    .eq('user_id', user.id)
+
+  revalidatePath(`/skjema/${skjemaId}`)
+  revalidatePath(`/utforsk/${skjemaId}`)
+}
+
 export async function slettSkjema(id: string) {
   const supabase = await createClient()
   const {

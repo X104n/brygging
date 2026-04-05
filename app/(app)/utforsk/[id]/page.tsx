@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import Link from 'next/link'
+import Image from 'next/image'
 
 function Rad({ label, value }: { label: string; value?: string | number | null }) {
   if (!value && value !== 0) return null
@@ -62,6 +63,12 @@ export default async function UtforskDetaljerPage({
 
   return (
     <div className="space-y-6">
+      {s.bilde_url && (
+        <div className="relative w-full aspect-video rounded-2xl overflow-hidden shadow-sm">
+          <Image src={s.bilde_url} alt={s.batch_navn || 'Bryggebilde'} fill className="object-cover" unoptimized />
+        </div>
+      )}
+
       <div className="flex items-center justify-between">
         <div>
           <Link href="/utforsk" className="text-sm text-zinc-500 hover:text-zinc-700">

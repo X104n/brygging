@@ -4,6 +4,8 @@ import SkjemaForm from '../SkjemaForm'
 import SlettKnapp from './SlettKnapp'
 import PubliserKnapp from './PubliserKnapp'
 import FerdigKnapp from './FerdigKnapp'
+import SchemaImageUpload from './SchemaImageUpload'
+import SectionCard from '@/app/components/SectionCard'
 import type { Bryggeskjema } from '@/lib/definitions'
 
 export default async function SkjemaDetaljerPage({
@@ -14,11 +16,10 @@ export default async function SkjemaDetaljerPage({
   const { id } = await params
   const supabase = await createClient()
 
-  const { data } = await supabase
-    .from('bryggeskjema')
-    .select('*')
-    .eq('id', id)
-    .single()
+  const [{ data }, { data: { user } }] = await Promise.all([
+    supabase.from('bryggeskjema').select('*').eq('id', id).single(),
+    supabase.auth.getUser(),
+  ])
 
   if (!data) notFound()
 
@@ -27,6 +28,14 @@ export default async function SkjemaDetaljerPage({
   return (
     <div className="space-y-6">
       <SkjemaForm skjema={skjema} />
+
+      <SectionCard tittel="Bilde">
+        <SchemaImageUpload
+          skjemaId={id}
+          userId={user!.id}
+          currentUrl={skjema.bilde_url}
+        />
+      </SectionCard>
 
       <div className="pb-8 space-y-4">
         <div className="flex items-center gap-3 flex-wrap">

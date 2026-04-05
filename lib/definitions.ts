@@ -45,4 +45,5 @@ export type Bryggeskjema = {
   karakter: number | null
   published: boolean
   finished: boolean
+  bilde_url: string | null
 }

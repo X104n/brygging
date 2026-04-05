@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 import { Star } from 'lucide-react'
 
 type Props = {
@@ -16,6 +17,7 @@ type Props = {
   /** Preview text shown below subtitle */
   preview?: string | null
   badges?: React.ReactNode
+  imageUrl?: string | null
 }
 
 export default function SchemaListCard({
@@ -30,6 +32,7 @@ export default function SchemaListCard({
   subtitle,
   preview,
   badges,
+  imageUrl,
 }: Props) {
   const dateStr = bryggedato
     ? new Date(bryggedato).toLocaleDateString('nb-NO')
@@ -42,37 +45,44 @@ export default function SchemaListCard({
   return (
     <Link
       href={href}
-      className="bg-white rounded-xl shadow-sm border border-zinc-100 p-5 hover:shadow-md hover:border-amber-200 transition-all flex items-start justify-between gap-4"
+      className="bg-white rounded-xl shadow-sm border border-zinc-100 hover:shadow-md hover:border-amber-200 transition-all flex items-stretch overflow-hidden"
     >
-      <div className="flex-1 min-w-0">
-        <div className="flex items-center gap-2 flex-wrap">
-          <p className="font-semibold text-zinc-900 text-base">
-            {batch_navn || 'Uten navn'}
-          </p>
-          {badges}
+      {imageUrl && (
+        <div className="relative w-24 sm:w-32 shrink-0">
+          <Image src={imageUrl} alt={batch_navn || 'Bilde'} fill className="object-cover" unoptimized />
         </div>
-        {(meta || subtitle) && (
-          <p className="text-sm text-zinc-500 mt-0.5">
-            {subtitle}
-            {subtitle && meta ? ' · ' : ''}
-            {meta}
-          </p>
-        )}
-        {preview && (
-          <p className="text-sm text-zinc-500 mt-1 line-clamp-2">{preview}</p>
-        )}
-      </div>
-      <div className="flex items-center gap-4 text-sm text-zinc-500 shrink-0">
-        {malt_og && <span>OG: {malt_og}</span>}
-        {malt_fg && <span>FG: {malt_fg}</span>}
-        {abv && <span>{abv}%</span>}
-        {karakter && (
-          <span className="font-bold text-amber-700 text-base flex items-center gap-1">
-            <Star className="w-3.5 h-3.5" />
-            {karakter}
-          </span>
-        )}
-        <span className="text-zinc-300 text-xl">&rsaquo;</span>
+      )}
+      <div className="flex-1 min-w-0 flex items-start justify-between gap-4 p-5">
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center gap-2 flex-wrap">
+            <p className="font-semibold text-zinc-900 text-base">
+              {batch_navn || 'Uten navn'}
+            </p>
+            {badges}
+          </div>
+          {(meta || subtitle) && (
+            <p className="text-sm text-zinc-500 mt-0.5">
+              {subtitle}
+              {subtitle && meta ? ' · ' : ''}
+              {meta}
+            </p>
+          )}
+          {preview && (
+            <p className="text-sm text-zinc-500 mt-1 line-clamp-2">{preview}</p>
+          )}
+        </div>
+        <div className="flex items-center gap-4 text-sm text-zinc-500 shrink-0">
+          {malt_og && <span>OG: {malt_og}</span>}
+          {malt_fg && <span>FG: {malt_fg}</span>}
+          {abv && <span>{abv}%</span>}
+          {karakter && (
+            <span className="font-bold text-amber-700 text-base flex items-center gap-1">
+              <Star className="w-3.5 h-3.5" />
+              {karakter}
+            </span>
+          )}
+          <span className="text-zinc-300 text-xl">&rsaquo;</span>
+        </div>
       </div>
     </Link>
   )
