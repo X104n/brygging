@@ -1,5 +1,4 @@
 import { createClient } from '@/lib/supabase/server'
-import Link from 'next/link'
 import SchemaListCard from '@/app/components/SchemaListCard'
 import EmptyState from '@/app/components/EmptyState'
 
@@ -49,15 +48,7 @@ export default async function UtforskPage() {
                 karakter={s.karakter}
                 preview={s.smaksnotater}
                 imageUrl={s.bilde_url}
-                subtitle={
-                  <Link
-                    href={`/brygger/${s.user_id}`}
-                    className="hover:text-amber-700 hover:underline"
-                    onClick={(e) => e.stopPropagation()}
-                  >
-                    {brewer}
-                  </Link>
-                }
+                subtitle={brewer}
               />
             )
           })}
