@@ -36,8 +36,8 @@ export async function proxy(request: NextRequest) {
     return NextResponse.redirect(new URL('/skjema', request.url))
   }
 
-  // Protect app routes
-  if (!user && (pathname.startsWith('/skjema') || pathname.startsWith('/utforsk') || pathname.startsWith('/profil') || pathname.startsWith('/brygger') || pathname.startsWith('/info'))) {
+  // Protect app routes (utforsk and info are public)
+  if (!user && (pathname.startsWith('/skjema') || pathname.startsWith('/profil') || pathname.startsWith('/brygger'))) {
     return NextResponse.redirect(new URL('/logg-inn', request.url))
   }
 
@@ -45,5 +45,5 @@ export async function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/logg-inn', '/registrer', '/skjema/:path*', '/utforsk/:path*', '/profil/:path*', '/brygger/:path*', '/info'],
+  matcher: ['/logg-inn', '/registrer', '/skjema/:path*', '/profil/:path*', '/brygger/:path*'],
 }
