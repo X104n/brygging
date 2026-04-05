@@ -26,29 +26,29 @@ export default async function Home() {
       </header>
 
       {/* Hero */}
-      <section className="flex-1 flex flex-col items-center justify-center text-center px-4 py-24">
+      <section className="flex-1 flex flex-col items-center justify-center text-center px-4 py-12 sm:py-24">
         <div className="max-w-2xl">
           <div className="inline-flex items-center gap-2 bg-amber-100 text-amber-800 rounded-full px-4 py-1.5 text-sm font-medium mb-6">
             <FlaskConical className="w-4 h-4" />
             For hjemmebryggerens hjerte
           </div>
-          <h1 className="text-5xl font-bold text-amber-900 mb-6 leading-tight">
+          <h1 className="text-3xl sm:text-5xl font-bold text-amber-900 mb-4 sm:mb-6 leading-tight">
             Logg brygget ditt.<br />Del det med verden.
           </h1>
-          <p className="text-xl text-zinc-600 mb-10 leading-relaxed">
+          <p className="text-base sm:text-xl text-zinc-600 mb-8 sm:mb-10 leading-relaxed">
             Bryggeskjema hjelper deg å holde oversikt over hele bryggeprosessen —
             fra meskevann til tappedato. Del de beste batchene med andre bryggere.
           </p>
-          <div className="flex gap-4 justify-center flex-wrap">
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center">
             <Link
               href="/registrer"
-              className="flex items-center gap-2 bg-amber-700 hover:bg-amber-800 text-white font-semibold rounded-xl px-6 py-3 text-lg transition-colors"
+              className="flex items-center justify-center gap-2 w-full sm:w-auto bg-amber-700 hover:bg-amber-800 text-white font-semibold rounded-xl px-6 py-3 text-base sm:text-lg transition-colors"
             >
               Start gratis <ArrowRight className="w-5 h-5" />
             </Link>
             <Link
               href="/logg-inn"
-              className="flex items-center gap-2 border-2 border-amber-700 text-amber-700 hover:bg-amber-100 font-semibold rounded-xl px-6 py-3 text-lg transition-colors"
+              className="flex items-center justify-center gap-2 w-full sm:w-auto border-2 border-amber-700 text-amber-700 hover:bg-amber-100 font-semibold rounded-xl px-6 py-3 text-base sm:text-lg transition-colors"
             >
               Logg inn
             </Link>

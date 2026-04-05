@@ -21,7 +21,7 @@ export default function BrewerHeader({ profile, totalFinished, publishedCount, a
   const år = profile.brygg_siden ? new Date().getFullYear() - profile.brygg_siden : null
 
   return (
-    <div className="bg-white rounded-2xl shadow-sm border border-zinc-100 p-8">
+    <div className="bg-white rounded-2xl shadow-sm border border-zinc-100 p-5 sm:p-8">
       <div className="flex flex-col sm:flex-row gap-6 items-center sm:items-start">
         <AvatarDisplay url={profile.avatar_url} name={navn} size="lg" />
         <div className="flex-1 text-center sm:text-left">

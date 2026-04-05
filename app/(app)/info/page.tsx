@@ -46,7 +46,7 @@ export default function InfoPage() {
   return (
     <div className="max-w-3xl mx-auto space-y-6">
       <div>
-        <h1 className="text-3xl font-bold text-amber-900 mb-2">Brygguiden</h1>
+        <h1 className="text-2xl sm:text-3xl font-bold text-amber-900 mb-2">Brygguiden</h1>
         <p className="text-zinc-600">
           En oversikt over alle de viktige parameterne i bryggeprosessen — hva de betyr,
           hvorfor de er viktige å logge, og hva du bør se etter.

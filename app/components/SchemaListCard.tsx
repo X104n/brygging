@@ -71,10 +71,10 @@ export default function SchemaListCard({
             <p className="text-sm text-zinc-500 mt-1 line-clamp-2">{preview}</p>
           )}
         </div>
-        <div className="flex items-center gap-4 text-sm text-zinc-500 shrink-0">
-          {malt_og && <span>OG: {malt_og}</span>}
-          {malt_fg && <span>FG: {malt_fg}</span>}
-          {abv && <span>{abv}%</span>}
+        <div className="flex items-center gap-2 sm:gap-4 text-sm text-zinc-500 shrink-0">
+          <span className="hidden sm:inline">{malt_og ? `OG: ${malt_og}` : ''}</span>
+          <span className="hidden sm:inline">{malt_fg ? `FG: ${malt_fg}` : ''}</span>
+          <span className="hidden sm:inline">{abv ? `${abv}%` : ''}</span>
           {karakter && (
             <span className="font-bold text-amber-700 text-base flex items-center gap-1">
               <Star className="w-3.5 h-3.5" />
