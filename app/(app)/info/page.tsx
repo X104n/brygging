@@ -1,29 +1,10 @@
 import Link from 'next/link'
-import { FlaskConical, Thermometer, Clock, Droplets, BarChart3, BookOpen, Star } from 'lucide-react'
-
-function Seksjon({
-  icon,
-  tittel,
-  children,
-  id,
-  farge,
-}: {
-  icon: React.ReactNode
-  tittel: string
-  children: React.ReactNode
-  id: string
-  farge: string
-}) {
-  return (
-    <section id={id} className="bg-white rounded-2xl shadow-sm border border-zinc-100 overflow-hidden">
-      <div className={`${farge} px-6 py-4 flex items-center gap-3`}>
-        <div className="text-white">{icon}</div>
-        <h2 className="text-lg font-bold text-white">{tittel}</h2>
-      </div>
-      <div className="px-6 py-5 space-y-4 text-sm text-zinc-700 leading-relaxed">{children}</div>
-    </section>
-  )
-}
+import {
+  FlaskConical, Thermometer, Clock, Droplets,
+  BarChart3, BookOpen, Star,
+} from 'lucide-react'
+import Accordion from '@/app/components/Accordion'
+import AbvKalkulator from '@/app/components/AbvKalkulator'
 
 function Begrep({ tittel, children }: { tittel: string; children: React.ReactNode }) {
   return (
@@ -42,223 +23,304 @@ function Tips({ children }: { children: React.ReactNode }) {
   )
 }
 
+const prosessSteg = [
+  { nr: 1, label: 'Forberedelse', href: '#graviteter', farge: 'bg-amber-100 text-amber-800 border-amber-200' },
+  { nr: 2, label: 'Mesking', href: '#meskeprosess', farge: 'bg-orange-100 text-orange-800 border-orange-200' },
+  { nr: 3, label: 'Koking', href: '#koking', farge: 'bg-red-100 text-red-800 border-red-200' },
+  { nr: 4, label: 'Nedkjøling', href: '#nedkjoling', farge: 'bg-blue-100 text-blue-800 border-blue-200' },
+  { nr: 5, label: 'Gjæring', href: '#gjaering', farge: 'bg-green-100 text-green-800 border-green-200' },
+]
+
 export default function InfoPage() {
   return (
-    <div className="max-w-3xl mx-auto space-y-6">
-      <div>
-        <h1 className="text-2xl sm:text-3xl font-bold text-amber-900 mb-2">Brygguiden</h1>
-        <p className="text-zinc-600">
-          En oversikt over alle de viktige parameterne i bryggeprosessen — hva de betyr,
-          hvorfor de er viktige å logge, og hva du bør se etter.
-        </p>
+    <div className="max-w-3xl mx-auto">
+      {/* Hero banner */}
+      <div className="-mx-4 -mt-6 sm:-mt-8 mb-8 relative overflow-hidden bg-gradient-to-br from-teal-900 via-teal-800 to-emerald-700">
+        <BookOpen className="absolute -right-4 -bottom-4 w-48 h-48 text-white/5 pointer-events-none" />
+        <BookOpen className="absolute right-24 top-3 w-10 h-10 text-white/10 -rotate-6 pointer-events-none" />
+
+        <div className="relative px-6 pt-10 pb-8 sm:pt-14 sm:pb-10">
+          <div className="flex items-center gap-2.5 mb-3">
+            <div className="bg-white/10 border border-white/20 rounded-lg p-1.5">
+              <BookOpen className="w-4 h-4 text-emerald-200" />
+            </div>
+            <span className="text-emerald-300 text-xs font-semibold uppercase tracking-widest">
+              Kunnskap
+            </span>
+          </div>
+          <h1 className="text-3xl sm:text-4xl font-bold text-white leading-tight">Brygguiden</h1>
+          <p className="text-teal-200/70 mt-2 text-sm sm:text-base max-w-md">
+            Alt du trenger å vite om prosessen — fra OG til tappedato
+          </p>
+        </div>
       </div>
 
-      {/* Quick nav */}
-      <nav className="bg-white rounded-xl border border-zinc-100 shadow-sm p-4">
-        <p className="text-xs font-semibold text-zinc-500 uppercase tracking-wide mb-3">Hopp til seksjon</p>
-        <div className="flex flex-wrap gap-2">
-          {[
-            ['#graviteter', 'Graviteter & ABV'],
-            ['#meskeprosess', 'Meskeprosess'],
-            ['#koking', 'Koking'],
-            ['#nedkjoling', 'Nedkjøling'],
-            ['#gjaering', 'Gjæring'],
-            ['#notater', 'Notater & karakter'],
-          ].map(([href, label]) => (
-            <a
-              key={href}
-              href={href}
-              className="text-sm bg-amber-50 hover:bg-amber-100 text-amber-800 rounded-lg px-3 py-1.5 transition-colors"
-            >
-              {label}
-            </a>
+      {/* Brewing process stepper */}
+      <div className="mb-8">
+        <p className="text-xs font-semibold text-zinc-400 uppercase tracking-widest mb-3">
+          Bryggeprosessen
+        </p>
+        <div className="flex items-center gap-1 sm:gap-2 overflow-x-auto pb-1">
+          {prosessSteg.map((steg, i) => (
+            <div key={steg.nr} className="flex items-center gap-1 sm:gap-2 shrink-0">
+              <a
+                href={steg.href}
+                className={`flex items-center gap-2 px-3 py-2 rounded-xl border text-xs sm:text-sm font-semibold transition-colors hover:opacity-80 ${steg.farge}`}
+              >
+                <span className="font-bold opacity-60">{steg.nr}.</span>
+                {steg.label}
+              </a>
+              {i < prosessSteg.length - 1 && (
+                <span className="text-zinc-300 text-sm">→</span>
+              )}
+            </div>
           ))}
         </div>
-      </nav>
+      </div>
 
-      <Seksjon id="graviteter" tittel="Graviteter, effektivitet & ABV" icon={<BarChart3 className="w-5 h-5" />} farge="bg-amber-700">
-        <p>
-          Gravitet måler tettheten til vørteren sammenlignet med rent vann (1.000). Sukker øker tettheten,
-          og når gjæren spiser sukkeret synker den igjen. Disse to målingene er grunnlaget for å beregne
-          alkoholinnholdet og forstå gjæringen din.
-        </p>
+      {/* Accordion sections */}
+      <div className="space-y-3">
+        <Accordion
+          id="graviteter"
+          tittel="Graviteter, effektivitet & ABV"
+          tagline="OG, FG, alkohol og effektivitet forklart"
+          icon={<BarChart3 className="w-5 h-5" />}
+          farge="bg-amber-700"
+          defaultOpen
+        >
+          <p>
+            Gravitet måler tettheten til vørteren sammenlignet med rent vann (1.000). Sukker øker
+            tettheten, og når gjæren spiser sukkeret synker den igjen. Disse to målingene er
+            grunnlaget for å beregne alkoholinnholdet.
+          </p>
 
-        <Begrep tittel="OG — Original Gravity (forventa & målt)">
-          Tettheten til vørteren <em>før</em> gjæring starter. En typisk session-øl ligger på 1.040,
-          mens en sterk barleywine kan være 1.100+. Høyere OG betyr mer sukker og potensielt sterkere øl.
-          Å logge både forventa og målt OG viser deg om oppskriften din traff — og om effektiviteten din
-          var som planlagt.
-        </Begrep>
+          <Begrep tittel="OG — Original Gravity (forventa & målt)">
+            Tettheten <em>før</em> gjæring starter. En session-øl ligger typisk på 1.040,
+            en sterk barleywine på 1.100+. Å logge både forventa og målt OG viser om oppskriften
+            traff — og om effektiviteten var som planlagt.
+          </Begrep>
 
-        <Begrep tittel="FG — Final Gravity (forventa & målt)">
-          Tettheten <em>etter</em> gjæringen er ferdig. Gjæren omdanner sukker til alkohol og CO₂,
-          så FG er alltid lavere enn OG. En FG som ikke faller til forventa nivå kan tyde på at gjæringen
-          stoppet for tidlig (stuck fermentation), feil gjæringstemperatur, eller for lite gjær.
-        </Begrep>
+          <Begrep tittel="FG — Final Gravity (forventa & målt)">
+            Tettheten <em>etter</em> gjæringen er ferdig. En FG som ikke faller til forventa nivå
+            kan tyde på stuck fermentation, feil temperatur eller for lite gjær.
+          </Begrep>
 
-        <Begrep tittel="ABV — Alkohol By Volume">
-          Beregnes automatisk fra OG og FG med formelen:{' '}
-          <code className="bg-zinc-100 px-1 rounded text-zinc-800">(OG − FG) × 131,25</code>.{' '}
-          For eksempel: OG 1.050 og FG 1.010 gir (0.040) × 131.25 ≈ <strong>5,25% ABV</strong>.
-        </Begrep>
+          <Begrep tittel="Effektivitet">
+            Hvor mye sukker du fikk ut av maltet, uttrykt som prosent av teoretisk maks.
+            Hjemmebryggerier ligger typisk på 70–80%. Lav effektivitet skyldes ofte for grovt
+            malt, feil mesketemp eller for lite skyllevann.
+          </Begrep>
 
-        <Begrep tittel="Effektivitet">
-          Hvor mye sukker du klarte å ekstrahere fra maltet ditt, uttrykt i prosent av det teoretisk
-          mulige. De fleste hjemmebryggerier ligger på 70–80%. Lav effektivitet kan skyldes for grovt
-          malt, feil mesketemp, dårlig omrøring eller for lite skyllevann.
-        </Begrep>
+          <AbvKalkulator />
 
-        <Tips>
-          Bruk et refraktometer eller hydrometer til å måle OG og FG. Husk at refraktometeret gir
-          unøyaktige FG-målinger etter gjæring — bruk da heller et hydrometer.
-        </Tips>
-      </Seksjon>
+          <Tips>
+            Bruk et hydrometer til å måle FG — refraktometeret gir unøyaktige resultater
+            etter gjæringen har startet.
+          </Tips>
+        </Accordion>
 
-      <Seksjon id="meskeprosess" tittel="Meskeprosess" icon={<Thermometer className="w-5 h-5" />} farge="bg-orange-600">
-        <p>
-          Mesking er prosessen der du blander varmt vann med knust malt for å aktivere enzymer
-          som bryter ned stivelse til gjærbart sukker. Temperatur og tid er de to viktigste
-          variablene — og de har stor innvirkning på smaken av det ferdige ølet.
-        </p>
+        <Accordion
+          id="meskeprosess"
+          tittel="Meskeprosess"
+          tagline="Temperatur, tid og vann — nøklene til sukkeret"
+          icon={<Thermometer className="w-5 h-5" />}
+          farge="bg-orange-600"
+        >
+          <p>
+            Mesking er der du aktiverer enzymer i maltet som bryter ned stivelse til gjærbart
+            sukker. Temperatur er den viktigste variabelen — den avgjør smaken på ølet ditt.
+          </p>
 
-        <Begrep tittel="Mesketemp">
-          De viktigste enzymene (alfa- og beta-amylase) jobber best i ulike temperaturintervaller.
-          Beta-amylase trives rundt <strong>62–65°C</strong> og lager mye gjærbart sukker → tørt,
-          lett øl. Alfa-amylase er aktiv rundt <strong>68–72°C</strong> og gir mer ugjærbare
-          dekstriner → fyldigere, søtere øl. De fleste oppskrifter sikter mot 65–68°C for balanse.
-        </Begrep>
+          {/* Temperature zone guide */}
+          <div className="rounded-xl overflow-hidden border border-zinc-200 bg-zinc-50">
+            <div className="bg-zinc-800 px-4 py-2.5 flex items-center gap-2">
+              <Thermometer className="w-4 h-4 text-zinc-300" />
+              <p className="text-sm font-semibold text-zinc-200">Mesketemperatur — hva skjer?</p>
+            </div>
+            <div className="p-4 space-y-3">
+              {/* Visual temp bar */}
+              <div className="relative h-6 rounded-full overflow-hidden flex">
+                <div className="flex-1 bg-gradient-to-r from-sky-400 to-sky-300" />
+                <div className="flex-1 bg-gradient-to-r from-emerald-400 to-emerald-300" />
+                <div className="flex-1 bg-gradient-to-r from-orange-400 to-red-400" />
+              </div>
+              <div className="grid grid-cols-3 gap-2 text-xs">
+                <div className="space-y-1">
+                  <div className="flex items-center gap-1.5">
+                    <div className="w-3 h-3 rounded-full bg-sky-400 shrink-0" />
+                    <span className="font-bold text-zinc-700">62–65°C</span>
+                  </div>
+                  <p className="text-zinc-500 leading-tight">Tørt, lett øl</p>
+                  <p className="text-zinc-400 leading-tight hidden sm:block">Beta-amylase dominerer → mye gjærbart sukker</p>
+                </div>
+                <div className="space-y-1">
+                  <div className="flex items-center gap-1.5">
+                    <div className="w-3 h-3 rounded-full bg-emerald-400 shrink-0" />
+                    <span className="font-bold text-zinc-700">65–68°C</span>
+                  </div>
+                  <p className="text-zinc-500 leading-tight">Balansert</p>
+                  <p className="text-zinc-400 leading-tight hidden sm:block">Begge enzymer aktive → god balanse</p>
+                </div>
+                <div className="space-y-1">
+                  <div className="flex items-center gap-1.5">
+                    <div className="w-3 h-3 rounded-full bg-orange-400 shrink-0" />
+                    <span className="font-bold text-zinc-700">68–72°C</span>
+                  </div>
+                  <p className="text-zinc-500 leading-tight">Fyldig, søtt øl</p>
+                  <p className="text-zinc-400 leading-tight hidden sm:block">Alfa-amylase dominerer → mer body</p>
+                </div>
+              </div>
+            </div>
+          </div>
 
-        <Begrep tittel="Mesketid">
-          Typisk 60 minutter. Kortere mesking kan gi lavere effektivitet og uferdig sukkeromdanning.
-          Noen avanserte oppskrifter bruker trinnmesking med ulike temperaturer.
-        </Begrep>
+          <Begrep tittel="Mesketid">
+            Typisk 60 minutter. Kortere mesking kan gi lavere effektivitet. Noen avanserte
+            oppskrifter bruker trinnmesking med ulike temperaturer for å forme smaksprofilen.
+          </Begrep>
 
-        <Begrep tittel="Meskevann & skyllevann">
-          Mengden meskevann påvirker tykkelsen på mesken og enzymaktiviteten.
-          Skyllevann (sparge) brukes til å skylle resterende sukker ut av maltkaken.
-          Totalt vann ≈ meskevann + skyllevann = litt mer enn du vil ha til kok.
-        </Begrep>
+          <Begrep tittel="Meskevann & skyllevann">
+            Totalt vann ≈ meskevann + skyllevann = litt mer enn du vil ha til kok.
+            Skyllevannet henter ut resterende sukker fra maltkaken.
+          </Begrep>
 
-        <Tips>
-          Notér mesketemperaturen etter omrøring, ikke bare når du tilsetter vannet. Maltet
-          senker temperaturen, og de første minuttene er avgjørende.
-        </Tips>
-      </Seksjon>
+          <Tips>
+            Mål mesketemperaturen etter omrøring — maltet senker temperaturen de første minuttene.
+          </Tips>
+        </Accordion>
 
-      <Seksjon id="koking" tittel="Koking" icon={<FlaskConical className="w-5 h-5" />} farge="bg-red-600">
-        <p>
-          Koking steriliserer vørteren, fordamper uønskede forbindelser (særlig DMS),
-          karamelliserer sukker og isomeriserer humlesyrer til bitterhet.
-        </p>
+        <Accordion
+          id="koking"
+          tittel="Koking"
+          tagline="Sterilisering, humle og fordampning"
+          icon={<FlaskConical className="w-5 h-5" />}
+          farge="bg-red-600"
+        >
+          <p>
+            Koking steriliserer vørteren, fordamper uønskede forbindelser (særlig DMS),
+            karamelliserer sukker og isomeriserer humlesyrer til bitterhet.
+          </p>
 
-        <Begrep tittel="Koketid">
-          Standard er 60 minutter. Kortere koking gir mindre bitterhet og fordampning.
-          90 minutters kok brukes ofte ved pilsnermalt for å drive bort mer DMS
-          (dimetylsulfid — gir kornlukten i malt).
-        </Begrep>
+          <Begrep tittel="Koketid">
+            Standard er 60 minutter. 90 minutters kok brukes ved pilsnermalt for å
+            drive bort DMS (dimetylsulfid — gir kornlukten i malt).
+          </Begrep>
 
-        <Begrep tittel="Liter til kok">
-          Du vil alltid miste litt volum under koking (fordampning, typisk 10–15% per time).
-          Å logge dette hjelper deg å treffe ønsket batch-størrelse neste gang.
-        </Begrep>
+          <Begrep tittel="Liter til kok">
+            Du mister typisk 10–15% volum per time via fordampning. Å logge dette
+            hjelper deg å treffe ønsket batch-størrelse neste gang.
+          </Begrep>
 
-        <Begrep tittel="Humletilsetninger">
-          Bitterhumle tilsettes tidlig (60 min), aromahumle sent (5–0 min) eller i whirlpool.
-          Jo lengre koketid for humlen, jo mer bitterhet — men jo mindre aroma. Notér
-          tilsetningspunktene dine i bryggenotatene.
-        </Begrep>
+          <Begrep tittel="Humletilsetninger">
+            Bitterhumle tilsettes tidlig (60 min), aromahumle sent (5–0 min) eller i whirlpool.
+            Jo lengre koketid, jo mer bitterhet — men jo mindre aroma.
+          </Begrep>
 
-        <Tips>
-          Spiralkjøleren bør desinfiseres de siste 15 minuttene av koket — den er da neddykket
-          i kokende vørter og steriliseres effektivt.
-        </Tips>
-      </Seksjon>
+          <Tips>
+            Spiralkjøleren desinfiseres de siste 15 minuttene av koket — den er neddykket
+            i kokende vørter og steriliseres effektivt.
+          </Tips>
+        </Accordion>
 
-      <Seksjon id="nedkjoling" tittel="Nedkjøling" icon={<Droplets className="w-5 h-5" />} farge="bg-blue-600">
-        <p>
-          Rask nedkjøling er kritisk for ølkvalitet. Langsom avkjøling gir bakterier tid til å
-          infisere vørteren, og øker risikoen for DMS-produksjon.
-        </p>
+        <Accordion
+          id="nedkjoling"
+          tittel="Nedkjøling"
+          tagline="Rask avkjøling = bedre øl"
+          icon={<Droplets className="w-5 h-5" />}
+          farge="bg-blue-600"
+        >
+          <p>
+            Rask nedkjøling er kritisk for ølkvalitet. Langsom avkjøling gir bakterier tid til
+            å infisere vørteren og øker risikoen for DMS-produksjon.
+          </p>
 
-        <Begrep tittel="Mål: kjøl ned under 80°C så fort som mulig">
-          Over 80°C er sterilisert sone — her produseres det fortsatt DMS. Under 80°C stopper
-          DMS-produksjonen. Mål: ned til gjæringstemperatur (ca. 18–20°C for ale) innen 20–30 min.
-        </Begrep>
+          <Begrep tittel="Mål: under 80°C så raskt som mulig">
+            Over 80°C produseres det fortsatt DMS. Under 80°C stopper produksjonen.
+            Sikt mot gjæringstemperatur (ca. 18–20°C for ale) innen 20–30 minutter.
+          </Begrep>
 
-        <Begrep tittel="Måling av OG">
-          Nedkjøling er det naturlige tidspunktet å måle OG, siden hydrometeret er kalibrert
-          til 20°C og vørteren nå er kald nok til en nøyaktig avlesning.
-        </Begrep>
+          <Begrep tittel="Måling av OG">
+            Nedkjøling er det naturlige tidspunktet for å måle OG, siden hydrometeret er
+            kalibrert til 20°C og vørteren nå er kald nok til en nøyaktig avlesning.
+          </Begrep>
 
-        <Tips>
-          Bruk isvannskrets i spiralkjøleren for raskere nedkjøling om sommeren. God kjøling
-          skaper også en kaldstuing (cold break) der proteiner klumper seg og synker — dette
-          gir klarere øl.
-        </Tips>
-      </Seksjon>
+          <Tips>
+            God kjøling skaper en kaldstuing (cold break) der proteiner klumper seg og synker
+            — dette gir klarere øl. Bruk isvannskrets for raskere kjøling om sommeren.
+          </Tips>
+        </Accordion>
 
-      <Seksjon id="gjaering" tittel="Gjæring" icon={<Clock className="w-5 h-5" />} farge="bg-green-700">
-        <p>
-          Gjæringen er der magien skjer — gjæren omdanner sukker til alkohol og CO₂, og skaper
-          hundrevis av smaksforbindelser. Temperaturkontroll er den enkeltfaktoren som har størst
-          innvirkning på smaken.
-        </p>
+        <Accordion
+          id="gjaering"
+          tittel="Gjæring"
+          tagline="Temperaturkontroll avgjør smaken"
+          icon={<Clock className="w-5 h-5" />}
+          farge="bg-green-700"
+        >
+          <p>
+            Gjæringen er der magien skjer — gjæren omdanner sukker til alkohol og CO₂, og skaper
+            hundrevis av smaksforbindelser. Temperaturkontroll er den enkeltfaktoren med størst
+            innvirkning på smaken.
+          </p>
 
-        <Begrep tittel="Gjæringstemp">
-          Ale-gjær (Saccharomyces cerevisiae): <strong>16–22°C</strong>.
-          Lager-gjær: <strong>8–12°C</strong>.
-          For høy temperatur gir fruktige estere og fuselalkoholer (hodepine!).
-          For lav temp kan gjæren bli dorsk og gjæringen stoppe.
-        </Begrep>
+          <Begrep tittel="Gjæringstemp">
+            Ale-gjær: <strong>16–22°C</strong>. Lager-gjær: <strong>8–12°C</strong>.
+            For høy temperatur gir fruktige estere og fuselalkoholer. For lav temp
+            kan gjæren bli dorsk og gjæringen stoppe.
+          </Begrep>
 
-        <Begrep tittel="Oksygenering">
-          Gjær trenger oksygen i startfasen for å bygge opp sterke cellevegger og formere seg.
-          Rist gjæringskarret eller bruk en luftpumpe rett etter pitching. Etter gjæringen starter
-          vil oksygen ødelegge ølet (oksidering).
-        </Begrep>
+          <Begrep tittel="Oksygenering">
+            Gjær trenger oksygen i startfasen for å formere seg. Rist gjæringskarret eller
+            bruk luftpumpe rett etter pitching. Etter oppstart vil oksygen ødelegge ølet.
+          </Begrep>
 
-        <Begrep tittel="Tørrhumling (dry hopping)">
-          Tilsetting av humle direkte i gjæringskaret (uten koking) gir intens humlearoma.
-          Typisk mot slutten av primærgjæringen. Logg når du tilsetter og hvor lenge.
-        </Begrep>
+          <Begrep tittel="Tørrhumling (dry hopping)">
+            Humle tilsatt direkte i gjæringskarret (uten koking) gir intens humlearoma.
+            Tilsettes typisk mot slutten av primærgjæringen.
+          </Begrep>
 
-        <Tips>
-          Bruk en temperaturlogger eller termometer festet på utsiden av gjæringskarret.
-          Stabile temperaturer er viktigere enn eksakt temperatur.
-        </Tips>
-      </Seksjon>
+          <Tips>
+            Stabile temperaturer er viktigere enn eksakt temperatur — fest et termometer
+            på utsiden av gjæringskarret og unngå store svingninger.
+          </Tips>
+        </Accordion>
 
-      <Seksjon id="notater" tittel="Notater & karakter" icon={<BookOpen className="w-5 h-5" />} farge="bg-purple-700">
-        <p>
-          Bryggenotater og smaksnotater er kanskje det mest undervurderte feltet i et bryggeskjema.
-          Hukommelsen er kortere enn du tror — og neste gang du brygger samme øl vil du takke
-          deg selv for å ha skrevet ned alt.
-        </p>
+        <Accordion
+          id="notater"
+          tittel="Notater & karakter"
+          tagline="Lær av hvert batch — skriv ned alt"
+          icon={<BookOpen className="w-5 h-5" />}
+          farge="bg-purple-700"
+        >
+          <p>
+            Bryggenotater og smaksnotater er kanskje det mest undervurderte feltet i et
+            bryggeskjema. Hukommelsen er kortere enn du tror.
+          </p>
 
-        <Begrep tittel="Bryggenotater">
-          Skriv ned alt som avvek fra planen: annen malt enn planlagt, uventet lang koketid,
-          temperaturavvik, problemer med utstyr. Disse detaljene forklarer ofte hvorfor ølet
-          ble annerledes enn forventet.
-        </Begrep>
+          <Begrep tittel="Bryggenotater">
+            Skriv ned alt som avvek fra planen: annen malt, uventet lang koketid,
+            temperaturavvik, problemer med utstyr. Disse detaljene forklarer ofte hvorfor
+            ølet ble annerledes enn forventet.
+          </Begrep>
 
-        <Begrep tittel="Smaksnotater">
-          Smak ølet ved tapping og etter kondisjonering. Beskriv aroma, smak, farge og munnfølelse.
-          Bruk gjerne fagtermer: humlighet, maltighet, fruktig, ester, fenol, tørr, fyldig osv.
-        </Begrep>
+          <Begrep tittel="Smaksnotater">
+            Smak ølet ved tapping og etter kondisjonering. Beskriv aroma, smak, farge og
+            munnfølelse — gjerne med fagtermer: humlighet, maltighet, ester, fenol, tørr, fyldig.
+          </Begrep>
 
-        <Begrep tittel="Karakter (1–10)">
-          En enkel karakter gjør det lett å sammenligne batch-er over tid. 6 er «greit drikkbart»,
-          8 er «vil gjerne brygge igjen», 10 er «det beste jeg har laget». Vær ærlig med deg selv!
-        </Begrep>
+          <Begrep tittel="Karakter (1–10)">
+            En enkel karakter gjør det lett å sammenligne batch-er over tid.
+            6 = greit drikkbart, 8 = vil brygge igjen, 10 = det beste jeg har laget.
+          </Begrep>
 
-        <div className="bg-purple-50 border border-purple-200 rounded-lg px-4 py-3 text-purple-900 text-sm">
-          <span className="font-semibold">Husk: </span>
-          De beste bryggerne er de som lærer av hvert batch. Et godt loggført bryggeskjema er
-          verktøyet som gjør deg bedre — ett brygg av gangen.
-        </div>
-      </Seksjon>
+          <div className="bg-purple-50 border border-purple-200 rounded-lg px-4 py-3 text-purple-900 text-sm">
+            <span className="font-semibold">Husk: </span>
+            De beste bryggerne er de som lærer av hvert batch. Et godt loggført
+            bryggeskjema er verktøyet som gjør deg bedre — ett brygg av gangen.
+          </div>
+        </Accordion>
+      </div>
 
-      <div className="text-center py-4">
+      <div className="text-center py-8">
         <Link
           href="/skjema/ny"
           className="inline-flex items-center gap-2 bg-amber-700 hover:bg-amber-800 text-white font-semibold rounded-xl px-6 py-3 transition-colors"
